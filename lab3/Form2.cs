@@ -29,7 +29,8 @@ namespace lab3
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            form1.dataGridView1.Rows.Add(new object[] {imie, nazwisko, wiek, stanowisko});
+            form1.dataGridView1.Rows.Add(new object[] {form1.employer_ID, imie, nazwisko, wiek, stanowisko});
+            form1.employer_ID++;
             Close();
         }
 
