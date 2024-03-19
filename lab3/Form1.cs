@@ -18,7 +18,7 @@ namespace lab3
         private void button3_Click(object sender, EventArgs e)
         {
             // Tworzenie nag³ówka pliku CSV
-            string csvContent = "Column1,Column2,Column3" + Environment.NewLine;
+            string csvContent = "ID,imie,nazwisko,wiek,stanowisko" + Environment.NewLine;
             // Dodawanie danych z DataGridView
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
