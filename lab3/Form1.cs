@@ -1,9 +1,12 @@
 using System.Data;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace lab3
 {
     public partial class Form1 : Form
     {
+        public List<Person> people = new List<Person>();
         public Form1()
         {
             InitializeComponent();
@@ -55,7 +58,7 @@ namespace lab3
             if (!File.Exists(filePath))
             {
                 MessageBox.Show("Plik CSV nie istnieje.", "B³¹d", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                return;
             }
             // Odczytaj zawartoœæ pliku CSV
             string[] lines = File.ReadAllLines(filePath);
@@ -90,13 +93,48 @@ namespace lab3
                 // Wywo³anie funkcji wczytuj¹cej dane z pliku CSV
                 LoadCSVToDataGridView(openFileDialog1.FileName);
             }
-    
+
 
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             dataGridView1.Rows.Remove(dataGridView1.SelectedRows[0]);
+        }
+
+        public void SerializeToXML(string fileName)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Person>));
+            using (TextWriter writer = new StreamWriter(fileName))
+            {
+                serializer.Serialize(writer, people);
+            }
+            Console.WriteLine("Obiekt zosta³ zserializowany do pliku XML.");
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            SerializeToXML("serializacja.xml");
+        }
+
+        // Metoda do deserializacji z XML
+        public static List<Person> DeserializeFromXML(string fileName)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Person>));
+            using (TextReader reader = new StreamReader(fileName))
+            {
+                List<Person> person = (List<Person>)serializer.Deserialize(reader);
+                Console.WriteLine("Obiekt zosta³ odczytany z pliku XML.");
+                return person;
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            people = DeserializeFromXML("serializacja.xml");
+            foreach (Person person in people) {
+                dataGridView1.Rows.Add(new object[] { employer_ID, person.FirstName, person.LastName, person.Age });
+                employer_ID++;
+            }
         }
     }
 

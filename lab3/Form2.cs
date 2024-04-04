@@ -31,6 +31,8 @@ namespace lab3
         {
             form1.dataGridView1.Rows.Add(new object[] {form1.employer_ID, imie, nazwisko, wiek, stanowisko});
             form1.employer_ID++;
+            Person my_person = new Person(imie, nazwisko, int.Parse(wiek));
+            form1.people.Add(my_person);
             Close();
         }
 
@@ -53,5 +55,6 @@ namespace lab3
         {
             stanowisko = comboBox1.SelectedItem.ToString();
         }
+
     }
 }
